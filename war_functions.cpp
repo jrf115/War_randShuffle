@@ -108,13 +108,13 @@ void war(Deck& playerA_Deck, Deck& playerB_Deck)
         if (playerA_LastCard->suit > playerB_LastCard->suit)
         {
             cout << "Player A wins B's cards " << endl;
-            giveCardsToPlayer(playerA_Deck, playerB_PlayCards);
+            giveCardsToPlayer(playerA_Deck, playerB_PlayCards, playerA_PlayCards);
             return;
         }
         else if (playerB_LastCard->suit > playerA_LastCard->suit)
         {
             cout << "Player B wins A's cards " << endl;
-            giveCardsToPlayer(playerB_Deck, playerA_PlayCards);
+            giveCardsToPlayer(playerB_Deck, playerA_PlayCards, playerB_PlayCards);
             return;
         }
         else
@@ -126,13 +126,20 @@ void war(Deck& playerA_Deck, Deck& playerB_Deck)
 /** This function will give cards to a player's hand from war **/
 /** Though this function is altered from the original         **/
 /** version to accomodate shuffle                             **/
-void giveCardsToPlayer(Deck& playerCards, Deck& temp)
+void giveCardsToPlayer(Deck& playerCards, Deck& temp, Deck& temp2)
 {   //Deck temp are the cards to "push back"
     random_shuffle(temp.begin(), temp.end());
+    random_shuffle(temp2.begin(), temp2.end());
     while (!temp.empty())
     {
-        playerCards.push_front(temp[temp.size()]);
+        playerCards.push_front(temp[temp.size() - 1]);
         temp.pop_back();
     }
+    while (!temp2.empty())
+    {
+        playerCards.push_front(temp2[temp2.size() - 1]);
+        temp2.pop_back();
+    }
     temp.clear();
+    temp2.clear();
 }
